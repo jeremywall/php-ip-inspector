@@ -12,14 +12,14 @@ echo "\n";
 echo "</pre>";
 
 function getRealIP() {
+	if (!empty($_SERVER['REMOTE_ADDR'])) {
+		$client_ip = $_SERVER['REMOTE_ADDR'];
+	} else if (!empty($_ENV['REMOTE_ADDR'])) {
+		$client_ip = $_ENV['REMOTE_ADDR'];
+	} else {
+		$client_ip = 'unknown';
+	}
 	if ($_SERVER['HTTP_X_FORWARDED_FOR'] != '') {
-		if (!empty($_SERVER['REMOTE_ADDR'])) {
-			$client_ip = $_SERVER['REMOTE_ADDR'];
-		} else if (!empty($_ENV['REMOTE_ADDR'])) {
-			$client_ip = $_ENV['REMOTE_ADDR'];
-		} else {
-			$client_ip = 'unknown';
-		}
 		$entries = split('[, ]', $_SERVER['HTTP_X_FORWARDED_FOR']);
 		reset($entries);
 		while (list(, $entry) = each($entries)){
@@ -38,14 +38,6 @@ function getRealIP() {
 					break;
 				}
 			}
-		}
-	} else {
-		if (!empty($_SERVER['REMOTE_ADDR'])) {
-			$client_ip = $_SERVER['REMOTE_ADDR'];
-		} else if (!empty($_ENV['REMOTE_ADDR'])) {
-			$client_ip = $_ENV['REMOTE_ADDR'];
-		} else {
-			$client_ip = 'unknown';
 		}
 	}
 	return $client_ip;
