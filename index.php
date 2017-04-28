@@ -10,7 +10,6 @@ echo "ENV\n";
 print_r($_ENV);
 echo "\n";
 echo "</pre>";
-echo file_get_contents("http://weatherlink.com/inspect.php");
 
 function getRealIP() {
 	if ($_SERVER['HTTP_X_FORWARDED_FOR'] != '') {
